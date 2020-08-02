@@ -26,7 +26,6 @@ export interface MatchDocModel extends Document {
 }
 
 export interface MatchRequestModel {
-  roomId: string;
   matchId: string;
-  playerName: string;
+  playerId: string;
 }
