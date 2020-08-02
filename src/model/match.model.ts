@@ -1,7 +1,9 @@
 import { Document } from "mongoose";
 
 export interface PlayerModel {
+  id: string;
   name: string;
+  online: boolean;
 }
 
 export interface GameStateModel {
@@ -9,11 +11,18 @@ export interface GameStateModel {
   table: number;
 }
 
-export interface MatchDocModel extends Document {
+export interface MatchModel {
   id: string;
+  active: boolean;
   players: PlayerModel[];
   state: GameStateModel;
-  status: boolean;
+}
+
+export interface MatchDocModel extends Document {
+  id: string;
+  active: boolean;
+  players: PlayerModel[];
+  state: GameStateModel;
 }
 
 export interface MatchRequestModel {
