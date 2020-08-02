@@ -5,7 +5,6 @@ const Match = require("../data/dbMatch");
 
 export const apiPostMatchJoin: RequestHandler = async (req, res, next) => {
   try {
-    console.log(req.body);
     const matchSearch: MatchDocModel = await Match.findById(req.body.matchId);
     matchSearch.players.push({
       name: req.body.name
