@@ -8,19 +8,39 @@ const roomSchema = new mongoose.Schema({
     unique: true,
     trim: true
   },
-  matches: [{
-    id: {
-      type: String,
-      required: true
-    }
-  }]
+  available: {
+    type: Boolean,
+    required: true
+  },
+  matchId: {
+    type: String,
+    required: true
+  }
 },
 {
   collection: "rooms"
 });
 
-roomSchema.statics.findByUid = async (id: string) => {
+roomSchema.statics.findAll = async () => {
+  const room = await Room.find() as RoomDocModel[];
+  if (!room) {
+    throw new Error();
+  } else {
+    return room;
+  }
+}
+
+roomSchema.statics.findById = async (id: string) => {
   const room = await Room.findOne({id: id}) as RoomDocModel;
+  if (!room) {
+    throw new Error();
+  } else {
+    return room;
+  }
+}
+
+roomSchema.statics.findAvailable = async () => {
+  const room = await Room.findOne({available: true}) as RoomDocModel;
   if (!room) {
     throw new Error();
   } else {

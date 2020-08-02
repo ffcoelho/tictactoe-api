@@ -33,9 +33,9 @@ const matchSchema = new mongoose.Schema({
   collection: "matches"
 });
 
-matchSchema.statics.findByUid = async (id: string) => {
+matchSchema.statics.findById = async (id: string) => {
   const match = await Match.findOne({id: id}) as MatchDocModel;
-  if (!match) {
+  if (!match || !match.status) {
     throw new Error();
   } else {
     return match;

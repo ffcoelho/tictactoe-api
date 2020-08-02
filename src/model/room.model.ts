@@ -1,10 +1,11 @@
 import { Document } from "mongoose";
 
-export interface MatchIdModel {
-  id: string;
+export interface RoomPublicModel {
+  available: boolean;
 }
 
 export interface RoomDocModel extends Document {
   id: string;
-  matches: MatchIdModel[];
+  available: boolean;
+  matchId: string;
 }

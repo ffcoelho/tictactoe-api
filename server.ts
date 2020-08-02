@@ -1,8 +1,9 @@
 import http from "http";
 import express from "express";
 import cors from "cors";
-
+import socketIO from "socket.io";
 import { connectDB } from "./src/data/db";
+import { apiRouter } from "./src/api/apiRouter";
 
 const app = express();
 app.use(cors());
@@ -10,6 +11,11 @@ app.disable("x-powered-by");
 connectDB();
 
 const server = http.createServer(app);
+const io = socketIO(server);
+const apiSocket = require("./src/api/apiSocket")(io);
+
+app.use("/", apiRouter);
+
 server.listen(9000, "127.0.0.1", () => {
   const d = new Date();
   const addr: any = server.address();

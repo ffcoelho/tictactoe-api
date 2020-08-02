@@ -15,3 +15,9 @@ export interface MatchDocModel extends Document {
   state: GameStateModel;
   status: boolean;
 }
+
+export interface MatchRequestModel {
+  roomId: string;
+  matchId: string;
+  playerName: string;
+}
