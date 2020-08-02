@@ -1,0 +1,19 @@
+{
+  "name": "tictactoe-api",
+  "version": "0.0.0",
+  "main": "server.ts",
+  "scripts": {
+    "start": "nodemon -e ts -w ./ -x npm run serve",
+    "serve": "tsc && node build/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.7",
+    "nodemon": "^2.0.4",
+    "typescript": "^3.9.7"
+  }
+}
