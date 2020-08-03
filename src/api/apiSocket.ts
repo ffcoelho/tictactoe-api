@@ -18,7 +18,7 @@ const apiSocket = (io: SocketIO.Server) => {
 
     socket.on("join", async (joinReqObj: MatchRequestModel) => {
       try {
-        const matchSearch: MatchDocModel = await Match.findByUid(joinReqObj.matchId);
+        const matchSearch: MatchDocModel = await Match.findById(joinReqObj.matchId);
         if (!matchSearch) {
           return socket.disconnect(true);
         }
@@ -44,7 +44,7 @@ const apiSocket = (io: SocketIO.Server) => {
 
     socket.on("disconnect", async (socket: socketIO.Socket) => {
       try {
-        const matchSearch: MatchDocModel = await Match.findByUid(matchId);
+        const matchSearch: MatchDocModel = await Match.findById(matchId);
         if (!matchSearch) {
           return;
         }
@@ -62,7 +62,6 @@ const apiSocket = (io: SocketIO.Server) => {
           players: matchSearch.players,
           state: matchSearch.state
         };
-        socket.leave(matchId);
         io.in(matchId).emit("update", matchData);
       } catch (error) {
         console.log(`socket.disconnect`, error)
