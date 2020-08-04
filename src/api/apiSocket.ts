@@ -1,5 +1,6 @@
 import socketIO from "socket.io";
 import { MatchRequestModel, MatchDocModel, MatchModel } from "../model/match.model";
+import { RoomDocModel } from "../model/room.model";
 
 const Room = require("../data/dbRoom");
 const Match = require("../data/dbMatch");
@@ -22,19 +23,24 @@ const apiSocket = (io: SocketIO.Server) => {
         if (!matchSearch) {
           return socket.disconnect(true);
         }
+        let onlinePlayer = false;
         matchSearch.players.forEach(player => {
           if (joinReqObj.playerId === player.id) {
             player.online = true;
+            onlinePlayer = true;
             return;
           }
         });
-        await matchSearch.save();
+        if (!onlinePlayer) {
+          return socket.disconnect(true);
+        }
         const matchData: MatchModel = {
-          active: matchSearch.active,
           id: matchSearch.id,
+          active: matchSearch.active,
           players: matchSearch.players,
           state: matchSearch.state
         };
+        await matchSearch.save();
         safeJoin(joinReqObj.matchId, joinReqObj.playerId);
         io.in(joinReqObj.matchId).emit("update", matchData);
       } catch (error) {
@@ -48,13 +54,23 @@ const apiSocket = (io: SocketIO.Server) => {
         if (!matchSearch) {
           return;
         }
-        matchSearch.players.forEach(player => {
-          if (playerId === player.id) {
-            player.online = false;
+        let playersOnline = 0;
+        for (let i = 0; i < matchSearch.players.length; i++) {
+          if (playerId === matchSearch.players[i].id) {
+            matchSearch.players[i].online = false;
             matchSearch.active = false;
-            return;
           }
-        });
+          if (matchSearch.players[i].online) {
+            playersOnline++;
+          }
+        }
+        if (playersOnline === 0) {
+          const roomSearch: RoomDocModel = await Room.findById(matchSearch.room);
+          roomSearch.available = true;
+          await roomSearch.save();
+          await matchSearch.save();
+          return;
+        }
         await matchSearch.save();
         const matchData: MatchModel = {
           active: matchSearch.active,

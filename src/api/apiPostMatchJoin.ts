@@ -7,8 +7,8 @@ const Match = require("../data/dbMatch");
 export const apiPostMatchJoin: RequestHandler = async (req, res, next) => {
   try {
     const matchSearch: MatchDocModel = await Match.findById(req.body.matchId);
-    if (matchSearch.players.length > 1) {
-      return res.status(401).json({ error: "Something went wrong." });
+    if (!matchSearch.active || matchSearch.players.length > 1) {
+      return res.status(400).json({ error: "Something went wrong." });
     }
     const playerId: string = shortid.generate();
     matchSearch.players.push({

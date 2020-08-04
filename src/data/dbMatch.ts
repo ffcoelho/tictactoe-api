@@ -12,6 +12,10 @@ const matchSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  room: {
+    type: String,
+    required: true
+  },
   players: [{
     id: {
       type: String,
@@ -43,7 +47,7 @@ const matchSchema = new mongoose.Schema({
 
 matchSchema.statics.findById = async (id: string) => {
   const match = await Match.findOne({id: id}) as MatchDocModel;
-  if (!match || !match.active) {
+  if (!match) {
     throw new Error();
   } else {
     return match;

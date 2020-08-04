@@ -9,13 +9,16 @@ const Match = require("../data/dbMatch");
 export const apiPostMatch: RequestHandler = async (req, res, next) => {
   try {
     const availableRoom: RoomDocModel = await Room.findAvailable();
+    if (!availableRoom) {
+      return res.status(400).json({ error: "Something went wrong." });
+    }
     const matchId = shortid.generate();
     availableRoom.matchId = matchId;
     availableRoom.available = false;
     await availableRoom.save();
     const match: MatchModel = {
-      active: true,
       id: matchId,
+      active: true,
       players: [],
       state: {
         turn: 0,
@@ -23,6 +26,7 @@ export const apiPostMatch: RequestHandler = async (req, res, next) => {
       }
     };
     const newMatch = new Match(match);
+    newMatch.room = availableRoom.id;
     await newMatch.save();
     res.status(200).json({ matchId });
   } catch (error) {

@@ -21,6 +21,7 @@ export interface MatchModel {
 export interface MatchDocModel extends Document {
   id: string;
   active: boolean;
+  room: string;
   players: PlayerModel[];
   state: GameStateModel;
 }
