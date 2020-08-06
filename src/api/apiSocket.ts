@@ -36,6 +36,7 @@ const apiSocket = (io: SocketIO.Server) => {
         const roundResult = game.state();
         if (roundResult.winLine !== "none") {
           matchSearch.state.board = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+          // win/draw logic
         }
         const matchData: MatchModel = {
           id: matchSearch.id,

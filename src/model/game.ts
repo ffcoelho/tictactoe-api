@@ -32,6 +32,10 @@ export class Game {
         winLine = this.lineNames[idx];
       }
     });
+    if (closed === 8) {
+      state = 'end';
+      winLine = 'draw';
+    }
     return { state, winLine };
   }
 
