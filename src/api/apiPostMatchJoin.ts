@@ -6,6 +6,9 @@ const Match = require("../data/dbMatch");
 
 export const apiPostMatchJoin: RequestHandler = async (req, res, next) => {
   try {
+    if (!req.body.matchId || !req.body.name) {
+      return res.status(400).json({ error: "Invalid request." });
+    }
     const matchSearch: MatchDocModel = await Match.findById(req.body.matchId);
     if (!matchSearch.active || matchSearch.players.length > 1) {
       return res.status(400).json({ error: "Something went wrong." });

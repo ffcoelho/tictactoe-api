@@ -31,12 +31,24 @@ const matchSchema = new mongoose.Schema({
     }
   }],
   state: {
+    board: [{
+      type: Number,
+      required: true
+    }],
+    matchState: {
+      type: String,
+      required: true
+    },
+    score: [{
+      type: Number,
+      required: true
+    }],
     turn: {
       type: Number,
       required: true
     },
-    table: {
-      type: Number,
+    winLine: {
+      type: String,
       required: true
     }
   }
