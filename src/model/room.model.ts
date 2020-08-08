@@ -1,7 +1,8 @@
 import { Document } from "mongoose";
 
 export interface RoomPublicModel {
-  available: boolean;
+  rooms: number;
+  available: number;
 }
 
 export interface RoomDocModel extends Document {
