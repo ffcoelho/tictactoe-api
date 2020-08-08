@@ -11,7 +11,7 @@ exports.apiGet = async (req, res, next) => {
         const date = `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         infoSearch.lastAccess = date;
         await infoSearch.save();
-        res.status(200).send();
+        res.status(200).send("TicTacToe-API");
     }
     catch (error) {
         res.status(400).send("Something went wrong.");
