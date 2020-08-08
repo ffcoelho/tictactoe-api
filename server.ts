@@ -16,7 +16,7 @@ const apiSocket = require("./src/api/apiSocket")(io);
 
 app.use("/", apiRouter);
 
-server.listen(9000, "127.0.0.1", () => {
+server.listen(process.env.PORT || 9000, () => {
   const d = new Date();
   const addr: any = server.address();
   console.log(`TIC-TAC-TOE API ┬ listening: ${addr.address}:${addr.port}`);
