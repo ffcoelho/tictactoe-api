@@ -25,7 +25,7 @@ export const apiPostMatch: RequestHandler = async (req, res, next) => {
         matchState: "play",
         score: [ 0, 0, 0 ],
         turn: 2,
-        winLine: "none"
+        winLine: "none",
       }
     };
     const newMatch = new Match(match);

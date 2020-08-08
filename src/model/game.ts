@@ -5,6 +5,8 @@ export class Game {
     "hA", "hB", "hC", "vA", "vB", "vC", "dA", "dB" 
   ];
 
+  scoreIdx: number;
+
   constructor(board: number[]) {
     this.lines = [
       [ board[0], board[1], board[2] ],
@@ -16,6 +18,7 @@ export class Game {
       [ board[0], board[4], board[8] ],
       [ board[6], board[4], board[2] ]
     ]
+    this.scoreIdx = -1;
   }
 
   state(): any {
@@ -32,14 +35,15 @@ export class Game {
         winLine = this.lineNames[idx];
       }
     });
-    if (closed === 8) {
+    if (closed === 8 && this.scoreIdx === -1) {
       state = 'end';
       winLine = 'draw';
+      this.scoreIdx = 1;
     }
-    return { state, winLine };
+    return { state, winLine, scoreIdx: this.scoreIdx };
   }
 
-  checkLine(line: number[]): string {
+  checkLine(line: number[]): any {
     let empty = 0;
     let sum = line[0] + line[1] + line[2];
     for (const pos of line) {
@@ -56,6 +60,7 @@ export class Game {
     if (empty === 0 && (sum === 4 || sum === 5)) {
       return "closed";
     }
+    this.scoreIdx = line[0] === 1 ? 0 : 2;
     return "winner";
   }
 }

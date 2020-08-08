@@ -35,8 +35,11 @@ const apiSocket = (io: SocketIO.Server) => {
         const game = new Game(board);
         const roundResult = game.state();
         if (roundResult.winLine !== "none") {
+          const score = [...matchSearch.state.score];
+          score[roundResult.scoreIdx]++;
           matchSearch.state.board = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
-          // win/draw logic
+          matchSearch.state.score = score;
+          matchSearch.state.matchState = "play";
         }
         const matchData: MatchModel = {
           id: matchSearch.id,
@@ -45,9 +48,9 @@ const apiSocket = (io: SocketIO.Server) => {
           state: {
             board,
             matchState: roundResult.state,
-            winLine: roundResult.winLine,
             score: matchSearch.state.score,
-            turn: matchSearch.state.turn
+            turn: matchSearch.state.turn,
+            winLine: roundResult.winLine
           }
         };
         await matchSearch.save();
