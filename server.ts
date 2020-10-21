@@ -19,5 +19,5 @@ app.use("/", apiRouter);
 server.listen(process.env.PORT || 9000, () => {
   const d = new Date();
   const addr: any = server.address();
-  console.log(`TIC-TAC-TOE API ┬ listening: ${addr.address}:${addr.port}`);
+  console.log(`TIC-TAC-TOE API ┬ listening on PORT: ${addr.port}`);
 });
